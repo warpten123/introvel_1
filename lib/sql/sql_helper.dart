@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:flutter/foundation.dart';
 
@@ -29,7 +30,8 @@ class SQLHelper {
         image TEXT,
         description TEXT,
         taken_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        user_id INTEGER
+        user_id INTEGER,
+        location TEXT
       )
 """);
   }
@@ -96,15 +98,16 @@ class SQLHelper {
     return res; //just get one item using the ID
   }
 
-  static Future<int> storePictureDiary(
-      String imagePath, String description, int user_id) async {
+  static Future<int> storePictureDiary(String imagePath, String description,
+      int user_id, String location) async {
     final db = await SQLHelper
         .db(); //create db if db not exist and create table if not exist also.
     final data = {
       'image': imagePath,
       'description': description,
-      'taken_at': DateTime.now().toString(),
+      'taken_at': DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
       'user_id': user_id,
+      'location': location,
     };
     // final data = {
     //   'title': title,

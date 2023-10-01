@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:introvel_1/screens/dashboard/pick_from_camera.dart';
 import 'package:introvel_1/screens/dashboard/pick_from_gallery.dart';
 
 import '../../../models/user.dart';
+import '../../../utilities/util.dart';
 
-class PickSourceImage extends StatelessWidget {
+class PickSourceImage extends StatefulWidget {
   PickSourceImage(this.user, {super.key});
   User user;
+
+  @override
+  State<PickSourceImage> createState() => _PickSourceImageState();
+}
+
+class _PickSourceImageState extends State<PickSourceImage> {
+  String? imagePath;
+  final _picker = ImagePicker();
+
+  Future<void> pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    bool _isLoading;
+    if (pickedFile != null) {
+      // Use pickedFile.path to get the selected image's file path.
+      if (!mounted) return;
+      setState(() {
+        imagePath = pickedFile.path;
+        _isLoading = false;
+      });
+      String position = await fetchPosition();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FromCamera(imagePath, position, widget.user)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,14 +71,26 @@ class PickSourceImage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          color: Colors.blue,
-                          child: Card(
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              size: 50,
+                        InkWell(
+                          onTap: () async {
+                            pickImage();
+
+                            //  Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => FromCamera(
+                            //           imagePath, position, widget.user)),
+                            // );
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.blue,
+                            child: Card(
+                              child: Icon(
+                                Icons.camera_alt_outlined,
+                                size: 50,
+                              ),
                             ),
                           ),
                         ),
@@ -64,7 +107,8 @@ class PickSourceImage extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => FromGallery(user)),
+                                      builder: (context) =>
+                                          FromGallery(widget.user)),
                                 );
                               },
                               child: Icon(

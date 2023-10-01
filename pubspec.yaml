@@ -44,6 +44,13 @@ dependencies:
   google_fonts: ^4.0.4
   curved_navigation_bar: ^1.0.3
   file_picker: ^5.3.1
+  geolocator: ^10.1.0
+  location: ^5.0.3
+  fluttertoast: ^8.2.2
+  geocoding: ^2.1.0
+  intl: ^0.17.0
+  camera: ^0.10.5+3
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:

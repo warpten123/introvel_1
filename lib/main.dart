@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:introvel_1/location.dart';
 import 'package:introvel_1/screens/login.dart';
 import 'package:introvel_1/screens/test.dart';
 
@@ -19,6 +20,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top]);
   }
 
   // This widget is the root of your application.
