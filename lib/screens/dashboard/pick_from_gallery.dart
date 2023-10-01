@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:introvel_1/screens/dashboard/user-dashboard.dart';
 import 'package:introvel_1/screens/dashboard/widgets/gallery_app_bar.dart';
 import 'package:introvel_1/sql/sql_helper.dart';
 import 'package:introvel_1/utilities/util.dart';
@@ -50,114 +51,121 @@ class _FromGalleryState extends State<FromGallery> {
   var file = null;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(90.0),
-          child: FromGalleryAppBar(),
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () async {
-                    // pickImage();
-                    file = await pickFile();
-                    if (file == null) return;
-                    setState(() {
-                      imagePath = file!.path;
-                    });
-                  },
-                  child: imagePath == null
-                      ? Container(
-                          height: 250,
-                          width: 350,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                                image:
-                                    AssetImage("assets/camera_placeholder.png"),
-                                fit: BoxFit.cover,
-                                opacity: 0.8),
-                          ),
-                        )
-                      : Container(
-                          height: 250,
-                          width: 350,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                                image: FileImage(File(imagePath!)),
-                                fit: BoxFit.cover,
-                                opacity: 0.8),
-                          ),
-                        ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 100,
-                  width: 400,
-                  child: TextFormField(
-                    maxLines: 8,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Text';
-                      }
-                      return null;
+    return SafeArea(
+      child: Container(
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(90.0),
+            child: FromGalleryAppBar(),
+          ),
+          body: Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      // pickImage();
+                      file = await pickFile();
+                      if (file == null) return;
+                      setState(() {
+                        imagePath = file!.path;
+                      });
                     },
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                        labelText: 'Description',
-                        prefixIcon: Icon(Icons.document_scanner),
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.green),
+                    child: imagePath == null
+                        ? Container(
+                            height: 250,
+                            width: 350,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/camera_placeholder.png"),
+                                  fit: BoxFit.cover,
+                                  opacity: 0.8),
+                            ),
+                          )
+                        : Container(
+                            height: 250,
+                            width: 350,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                  image: FileImage(File(imagePath!)),
+                                  fit: BoxFit.cover,
+                                  opacity: 0.8),
+                            ),
+                          ),
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 60,
-                  width: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(18),
+                  SizedBox(
+                    height: 20,
                   ),
-                  child: TextButton(
-                    style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.resolveWith(
-                        (states) => Colors.black12,
+                  Container(
+                    height: 100,
+                    width: 400,
+                    child: TextFormField(
+                      maxLines: 8,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Text';
+                        }
+                        return null;
+                      },
+                      controller: descriptionController,
+                      decoration: const InputDecoration(
+                          labelText: 'Description',
+                          prefixIcon: Icon(Icons.document_scanner),
+                          border: OutlineInputBorder(),
+                          fillColor: Colors.green),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 60,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: TextButton(
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.resolveWith(
+                          (states) => Colors.black12,
+                        ),
+                      ),
+                      onPressed: () async {
+                        String position = await fetchPosition();
+                        final result = await SQLHelper.storePictureDiary(
+                            imagePath!,
+                            descriptionController.text,
+                            widget.user.id!,
+                            position);
+                        if (result >= 1) {
+                          showSnackBarSuccess(
+                              context, "Picture Diary Added Successfully!");
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Dashboard(widget.user)),
+                          );
+                        } else {
+                          showSnackBarError(
+                              context, "Error in adding your diary!");
+                        }
+                      },
+                      child: Text(
+                        "Upload Picture!",
+                        style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
                     ),
-                    onPressed: () async {
-                      String position = await fetchPosition();
-                      final result = await SQLHelper.storePictureDiary(
-                          imagePath!,
-                          descriptionController.text,
-                          widget.user.id!,
-                          position);
-                      if (result >= 1) {
-                        showSnackBarSuccess(
-                            context, "Picture Diary Added Successfully!");
-                      } else {
-                        showSnackBarError(
-                            context, "Error in adding your diary!");
-                      }
-                    },
-                    child: Text(
-                      "Upload Picture!",
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

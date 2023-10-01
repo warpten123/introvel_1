@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:introvel_1/models/picture_diary.dart';
+import 'package:introvel_1/screens/dashboard/welcome_screen.dart';
 import 'package:introvel_1/screens/dashboard/widgets/home_bottombar.dart';
 
 import '../../models/user.dart';
@@ -150,7 +152,7 @@ class _DashboardState extends State<Dashboard> {
                     future: SQLHelper.getProfileDiariesUser(widget.user.id!),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                      getDiaries();
+                      // getDiaries();
                       if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -171,13 +173,25 @@ class _DashboardState extends State<Dashboard> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      //
+                                      final diary = Picture_Diary(
+                                          description: images[index]
+                                              ['description'],
+                                          taken_at: images[index]['taken_at'],
+                                          user_id: images[index]['user_id'],
+                                          location: images[index]['location'],
+                                          image: images[index]['image']);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const ImageDetails()),
-                                      );
+                                                WelcomeScreen(diary)),
+                                      ); //
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) =>
+                                      //           const ImageDetails()),
+                                      // );
                                     },
                                     child: Container(
                                       height: 200,

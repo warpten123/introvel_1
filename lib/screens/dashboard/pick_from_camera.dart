@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:introvel_1/screens/dashboard/user-dashboard.dart';
 import 'package:introvel_1/screens/dashboard/widgets/camera_app_bar.dart';
 
 import '../../models/user.dart';
@@ -106,6 +107,11 @@ class _FromCameraState extends State<FromCamera> {
                           widget.user.id!,
                           widget.location!);
                       if (result >= 1) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Dashboard(widget.user)),
+                        );
                         showSnackBarSuccess(
                             context, "Picture Diary Added Successfully!");
                       } else {
