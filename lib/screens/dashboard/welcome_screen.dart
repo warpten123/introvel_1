@@ -36,7 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 children: [
                   // ignore: prefer_const_constructors
                   Text(
-                    "Enjoy",
+                    "${widget.diary.title}",
                     // ignore: prefer_const_constructors
                     style: TextStyle(
                         color: Colors.white,
@@ -47,28 +47,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   SizedBox(
                     height: 2,
                   ),
-                  Text(
-                    "the world",
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontSize: 35,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
+
                   SizedBox(
                     height: 12,
                   ),
                   Text(
                     "${widget.diary.description}",
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 18,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    "Snapped at: ${widget.diary.taken_at}",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontStyle: FontStyle.italic,
                       fontSize: 16,
-                      letterSpacing: 1.2,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.5,
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 12,
                   ),
                   InkWell(
                     onTap: () {
@@ -87,7 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       child: Icon(
                         Icons.arrow_back_ios,
                         color: Colors.black54,
-                        size: 20,
+                        size: 15,
                       ),
                     ),
                   ),

@@ -23,6 +23,7 @@ String baseName = "";
 
 class _FromGalleryState extends State<FromGallery> {
   final descriptionController = TextEditingController();
+  final titleController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   String? imagePath;
   Future<void> pickImage() async {
@@ -104,6 +105,28 @@ class _FromGalleryState extends State<FromGallery> {
                     height: 20,
                   ),
                   Container(
+                    height: 80,
+                    width: 400,
+                    child: TextFormField(
+                      maxLines: 5,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Text';
+                        }
+                        return null;
+                      },
+                      controller: titleController,
+                      decoration: const InputDecoration(
+                          labelText: 'Put Some Title Into It!',
+                          prefixIcon: Icon(Icons.title),
+                          border: OutlineInputBorder(),
+                          fillColor: Colors.green),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
                     height: 100,
                     width: 400,
                     child: TextFormField(
@@ -116,7 +139,7 @@ class _FromGalleryState extends State<FromGallery> {
                       },
                       controller: descriptionController,
                       decoration: const InputDecoration(
-                          labelText: 'Description',
+                          labelText: 'Add Brief Description!',
                           prefixIcon: Icon(Icons.document_scanner),
                           border: OutlineInputBorder(),
                           fillColor: Colors.green),
@@ -144,7 +167,8 @@ class _FromGalleryState extends State<FromGallery> {
                             imagePath!,
                             descriptionController.text,
                             widget.user.id!,
-                            position);
+                            position,
+                            titleController.text);
                         if (result >= 1) {
                           showSnackBarSuccess(
                               context, "Picture Diary Added Successfully!");

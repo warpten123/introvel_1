@@ -148,6 +148,22 @@ class _DashboardState extends State<Dashboard> {
                   SizedBox(
                     height: 10,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Your Snaps!",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   FutureBuilder(
                     future: SQLHelper.getProfileDiariesUser(widget.user.id!),
                     builder: (BuildContext context,
@@ -179,7 +195,9 @@ class _DashboardState extends State<Dashboard> {
                                           taken_at: images[index]['taken_at'],
                                           user_id: images[index]['user_id'],
                                           location: images[index]['location'],
-                                          image: images[index]['image']);
+                                          image: images[index]['image'],
+                                          title: images[index]['title']);
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -213,7 +231,7 @@ class _DashboardState extends State<Dashboard> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Created At: ${images[index]['taken_at']}",
+                                          "${images[index]['title']}",
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600,

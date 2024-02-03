@@ -66,12 +66,11 @@ Future<String> fetchPosition() async {
           await placemarkFromCoordinates(latitude, longitude);
       if (placemarks != null && placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
-        return "${placemark.subLocality} ${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
-      } else {
+        return "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
+      } else {  
         return "Address not found";
       }
     } catch (e) {
-      print("Error getting address: $e");
       return "Error getting address";
     }
   }

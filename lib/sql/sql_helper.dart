@@ -31,7 +31,8 @@ class SQLHelper {
         description TEXT,
         taken_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         user_id INTEGER,
-        location TEXT
+        location TEXT,
+        title TEXT
       )
 """);
   }
@@ -99,7 +100,7 @@ class SQLHelper {
   }
 
   static Future<int> storePictureDiary(String imagePath, String description,
-      int user_id, String location) async {
+      int user_id, String location, String title) async {
     final db = await SQLHelper
         .db(); //create db if db not exist and create table if not exist also.
     final data = {
@@ -108,6 +109,7 @@ class SQLHelper {
       'taken_at': DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
       'user_id': user_id,
       'location': location,
+      'title': title,
     };
     // final data = {
     //   'title': title,

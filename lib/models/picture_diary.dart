@@ -8,6 +8,7 @@ class Picture_Diary {
   int user_id;
   String location;
   String image;
+  String title;
   Picture_Diary({
     this.id,
     required this.image,
@@ -15,6 +16,7 @@ class Picture_Diary {
     required this.taken_at,
     required this.user_id,
     required this.location,
+    required this.title,
   });
 
   Map<String, dynamic> toMap() {

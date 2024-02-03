@@ -40,7 +40,7 @@ class _CameraAppBarState extends State<CameraAppBar> {
             ),
           ),
           Text(
-            "PICK FROM GALLERY",
+            "PICK FROM CAMERA",
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w500,
