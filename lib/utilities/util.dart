@@ -67,7 +67,7 @@ Future<String> fetchPosition() async {
       if (placemarks != null && placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
         return "${placemark.locality}, ${placemark.administrativeArea}, ${placemark.country}";
-      } else {  
+      } else {
         return "Address not found";
       }
     } catch (e) {
@@ -96,4 +96,53 @@ Future<String> fetchPosition() async {
   locationAddress = await getAddress(latitude, longitude);
 
   return address = locationAddress;
+}
+
+String convertDate(String date) {
+  String year = "", month = "", day = "";
+  List<String> dateTimeParts = date.split(' ');
+  List<String> dateParts = dateTimeParts[0].split('-');
+  year = dateParts[0];
+  day = dateParts[2];
+  switch (dateParts[1]) {
+    case "01":
+      month = "January";
+      break;
+    case "02":
+      month = "February";
+      break;
+    case "03":
+      month = "March";
+      break;
+    case "04":
+      month = "April";
+      break;
+    case "05":
+      month = "May";
+      break;
+    case "06":
+      month = "June";
+      break;
+    case "07":
+      month = "July";
+      break;
+    case "08":
+      month = "August";
+      break;
+    case "09":
+      month = "September";
+      break;
+    case "10":
+      month = "October";
+      break;
+    case "11":
+      month = "November";
+      break;
+    case "12":
+      month = "December";
+      break;
+    default:
+      month = "Invalid Month";
+  }
+  return month + " " + day + ", " + year + " @" + dateTimeParts[1];
 }
