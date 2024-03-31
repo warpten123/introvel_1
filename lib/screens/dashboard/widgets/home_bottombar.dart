@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import 'create_album/show_modal.dart';
+
 class HomeBottomBar extends StatelessWidget {
   HomeBottomBar(this.path, {super.key});
   String? path;
@@ -18,10 +20,12 @@ class HomeBottomBar extends StatelessWidget {
           Icons.favorite_outline,
           size: 30,
         ),
-        Icon(
-          Icons.add,
-          size: 30,
-        ),
+        IconButton(
+            icon: Icon(
+              Icons.add,
+              size: 30,
+            ),
+            onPressed: () => showCustomModalBottomSheet(context)),
         Icon(
           Icons.book,
           size: 30,
@@ -30,7 +34,7 @@ class HomeBottomBar extends StatelessWidget {
             ? CircleAvatar(
                 backgroundColor: Colors.grey.shade800,
                 // ignore: prefer_const_constructors
-                backgroundImage: AssetImage(""),
+                backgroundImage: AssetImage(""), //profile pic sa user temp shit
               )
             : CircleAvatar(
                 backgroundColor: Colors.grey.shade800,

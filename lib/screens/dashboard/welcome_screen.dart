@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:introvel_1/models/picture_diary.dart';
 import 'package:introvel_1/screens/dashboard/user-dashboard.dart';
+import 'package:introvel_1/utilities/util.dart';
 
 class WelcomeScreen extends StatefulWidget {
   WelcomeScreen(this.diary, {super.key});
@@ -55,7 +56,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     "${widget.diary.description}",
                     style: TextStyle(
                         color: Colors.white.withOpacity(0.7),
-                        fontSize: 18,
+                        fontSize: 22,
                         letterSpacing: 1.2,
                         fontWeight: FontWeight.bold),
                   ),
@@ -63,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     height: 12,
                   ),
                   Text(
-                    "Snapped at: ${widget.diary.taken_at}",
+                    "Snapped at: ${convertDate(widget.diary.taken_at)}",
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.9),
                       fontStyle: FontStyle.italic,

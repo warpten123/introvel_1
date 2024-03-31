@@ -51,6 +51,7 @@ dependencies:
   intl: ^0.17.0
   camera: ^0.10.5+3
   path: ^1.8.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

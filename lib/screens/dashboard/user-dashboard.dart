@@ -244,19 +244,22 @@ class _DashboardState extends State<Dashboard> {
                                   SizedBox(
                                     height: 5,
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.amber,
-                                        size: 20,
-                                      ),
-                                      Text(
-                                        "${images[index]['location']}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.amber,
+                                          size: 20,
+                                        ),
+                                        Text(
+                                          "${images[index]['location']}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

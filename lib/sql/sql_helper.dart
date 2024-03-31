@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:introvel_1/models/album.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:flutter/foundation.dart';
 
@@ -37,12 +38,29 @@ class SQLHelper {
 """);
   }
 
+  static Future<void> createAlbum(sql.Database database) async {
+    await database.execute("""
+      CREATE TABLE album(
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        album_title TEXT,
+        user_id INTEGER,
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+""");
+  }
+
   static Future<sql.Database> db() async {
-    return sql.openDatabase('introvel.db', version: 1,
+    return sql.openDatabase('introvel.db', version: 2,
         onCreate: (sql.Database database, int version) async {
       await createTableUser(database);
       await createTableImages(database);
       await createTablePictureDiary(database);
+      await createAlbum(database);
+    }, onUpgrade:
+            (sql.Database database, int oldVersion, int newVersion) async {
+      if (oldVersion < 2) {
+        await createAlbum(database);
+      }
     });
   }
 
@@ -140,5 +158,44 @@ class SQLHelper {
         where: "id = ?", whereArgs: [diary_id], limit: 1);
 
     return res; //just get one item using the ID
+  }
+
+  static Future<int> createAlbumPictureDiary(
+      int user_id, String album_text) async {
+    final db = await SQLHelper
+        .db(); //create db if db not exist and create table if not exist also.
+    final data = {
+      'created_at': DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
+      'user_id': user_id,
+      'album_title': album_text,
+    };
+
+    final id = await db.insert('album', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace); //obvious shit
+    print("CREATED: $id");
+    return id;
+  }
+
+  static Future<List<Album>> getAlbumsUser(int user_id) async {
+    /// change this to list ,a[ string dynamic]
+    final db = await SQLHelper.db();
+    final res = await db.query(
+      'album',
+      where: "id = ?",
+      whereArgs: [user_id],
+    );
+    print("res $res");
+    List<Album> albums =
+        res.map((albumMap) => Album.fromMap(albumMap)).toList();
+    albums.forEach((album) {
+      print(album.album_title);
+    });
+    return albums;
+  }
+
+  static Future<List<Map<String, dynamic>>> getAllAlbums() async {
+    final db = await SQLHelper.db();
+    final test = db.query('album', orderBy: "id");
+    return test; // query for fetching, updating, deleting
   }
 }

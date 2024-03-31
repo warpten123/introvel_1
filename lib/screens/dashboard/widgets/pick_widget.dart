@@ -85,11 +85,21 @@ class _PickSourceImageState extends State<PickSourceImage> {
                           child: Container(
                             width: 100,
                             height: 100,
-                            color: Colors.blue,
                             child: Card(
-                              child: Icon(
-                                Icons.camera_alt_outlined,
-                                size: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.camera_alt_outlined,
+                                    size: 50,
+                                  ),
+                                  Text(
+                                    "Camera",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -100,7 +110,6 @@ class _PickSourceImageState extends State<PickSourceImage> {
                         Container(
                           width: 100,
                           height: 100,
-                          color: Colors.blue,
                           child: Card(
                             child: InkWell(
                               onTap: () {
@@ -111,9 +120,18 @@ class _PickSourceImageState extends State<PickSourceImage> {
                                           FromGallery(widget.user)),
                                 );
                               },
-                              child: Icon(
-                                Icons.photo_album,
-                                size: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.photo_album,
+                                    size: 50,
+                                  ),
+                                  Text("Gallery",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold))
+                                ],
                               ),
                             ),
                           ),
