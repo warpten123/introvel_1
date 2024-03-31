@@ -7,10 +7,12 @@ import 'package:flutter/services.dart';
 // ignore: unnecessary_import, implementation_imports
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:introvel_1/provider/user_provider.dart';
 import 'package:introvel_1/screens/register.dart';
 
 import 'package:introvel_1/sql/sql_helper.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart';
 
 import '../models/user.dart';
 import '../utilities/util.dart';
@@ -68,6 +70,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -226,6 +230,8 @@ class _LoginState extends State<Login> {
                                       email: result[0]['email'],
                                       password: result[0]['password'],
                                       path: result[0]['profile_image']);
+                                  print("User: ${user.id}");
+                                  userProvider.storeUser(user.id!);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
