@@ -9,9 +9,9 @@ class AlbumsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    return Center(
-      child: FutureBuilder<List<Map<String, dynamic>>>(
-        future: SQLHelper.getAllAlbums(),
+    return Material(
+      child: FutureBuilder<List<Album>>(
+        future: SQLHelper.getAlbumsUser(userProvider.getStoredUserId()),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
@@ -25,8 +25,8 @@ class AlbumsList extends StatelessWidget {
                 final album = albums[index];
                 return Card(
                   child: ListTile(
-                    title: Text(album['album_title']),
-                    subtitle: Text(album['created_at'].toString()),
+                    title: Text(album.album_title),
+                    subtitle: Text(album.created_at),
                     // Add more widgets to display album details
                   ),
                 );
