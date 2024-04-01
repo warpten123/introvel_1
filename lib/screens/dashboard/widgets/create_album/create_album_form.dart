@@ -45,27 +45,25 @@ class _CreateAlbumFormState extends State<CreateAlbumForm> {
           ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => AlbumsList()),
-                );
-                // Perform album creation logic here
-                // final result = await SQLHelper.createAlbumPictureDiary(
-                //   userProvider.getStoredUserId(),
-                //   _albumNameController.text,
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => AlbumsList()),
                 // );
-                // print("RESULT $result");
-                // if (result >= 1) {
-                //   Navigator.pushReplacement(
-                //     context,
-                //     MaterialPageRoute(builder: (context) => AlbumsList()),
-                //   );
-                //   showSnackBarSuccess(
-                //       context, "Picture Diary Added Successfully!");
-                // } else {
-                //   showSnackBarError(context, "Error in adding your diary!");
-                // }
-                print(SQLHelper.getAllAlbums());
+                // Perform album creation logic here
+                final result = await SQLHelper.createAlbumPictureDiary(
+                  userProvider.getStoredUserId(),
+                  _albumNameController.text,
+                );
+                print("RESULT $result");
+                if (result >= 1) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => AlbumsList()),
+                  );
+                  showSnackBarSuccess(context, "Album Created Successfully!");
+                } else {
+                  showSnackBarError(context, "Error in creating your album!");
+                }
               }
             },
             child: Text('Create Album'),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -33,7 +31,6 @@ class _LocationState extends State<LocationWidget> {
           return "Address not found";
         }
       } catch (e) {
-    
         return "Somewhere around the world :)";
       }
     }

@@ -181,7 +181,7 @@ class SQLHelper {
     final db = await SQLHelper.db();
     final res = await db.query(
       'album',
-      where: "id = ?",
+      where: "user_id = ?",
       whereArgs: [user_id],
     );
     print("res $res");
