@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:introvel_1/models/picture_diary.dart';
 import 'package:introvel_1/screens/dashboard/welcome_screen.dart';
 import 'package:introvel_1/screens/dashboard/widgets/home_bottombar.dart';
+import 'package:introvel_1/screens/reusable_components/grid_card.dart';
 
 import '../../models/user.dart';
 import '../../sql/sql_helper.dart';
@@ -237,7 +238,16 @@ class _DashboardState extends State<Dashboard> {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        Icon(Icons.more_vert, size: 30),
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Grid_Card()),
+                                              ); //
+                                            },
+                                            icon: Icon(Icons.more_vert))
                                       ],
                                     ),
                                   ),

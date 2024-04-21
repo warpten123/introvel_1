@@ -45,16 +45,11 @@ class _CreateAlbumFormState extends State<CreateAlbumForm> {
           ElevatedButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => AlbumsList()),
-                // );
-                // Perform album creation logic here
                 final result = await SQLHelper.createAlbumPictureDiary(
                   userProvider.getStoredUserId(),
                   _albumNameController.text,
                 );
-                print("RESULT $result");
+
                 if (result >= 1) {
                   Navigator.pushReplacement(
                     context,
