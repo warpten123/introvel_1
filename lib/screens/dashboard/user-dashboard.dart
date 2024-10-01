@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:introvel_1/models/picture_diary.dart';
+import 'package:introvel_1/provider/user_provider.dart';
 import 'package:introvel_1/screens/dashboard/welcome_screen.dart';
 import 'package:introvel_1/screens/dashboard/widgets/home_bottombar.dart';
+import 'package:introvel_1/screens/dashboard/widgets/view_album/albums_list.dart';
+import 'package:introvel_1/screens/reusable_components/grid_card.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
 import '../../sql/sql_helper.dart';
@@ -46,6 +50,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -237,7 +242,24 @@ class _DashboardState extends State<Dashboard> {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        Icon(Icons.more_vert, size: 30),
+                                        IconButton(
+                                            onPressed: () async {
+                                              final result = await SQLHelper
+                                                  .storeDiaryInAlbum(
+                                                      userProvider
+                                                          .getStoredUserId(),
+                                                      images[index]['id'],
+                                                      1);
+
+                                              print(result);
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           AlbumsList()),
+                                              // ); //
+                                            },
+                                            icon: Icon(Icons.more_vert))
                                       ],
                                     ),
                                   ),

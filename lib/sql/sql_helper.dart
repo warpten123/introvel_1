@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:introvel_1/models/album.dart';
+import 'package:introvel_1/models/picture_diary.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:flutter/foundation.dart';
 
@@ -44,7 +45,18 @@ class SQLHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         album_title TEXT,
         user_id INTEGER,
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        diary_id INTEGER
+      )
+""");
+  }
+
+  static Future<void> createAlbumWithDiaries(sql.Database database) async {
+    await database.execute("""
+      CREATE TABLE album_diaries(
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        user_id INTEGER,
+        diary_id INTEGER
       )
 """);
   }
@@ -59,7 +71,7 @@ class SQLHelper {
     }, onUpgrade:
             (sql.Database database, int oldVersion, int newVersion) async {
       if (oldVersion < 2) {
-        await createAlbum(database);
+        await createAlbumWithDiaries(database);
       }
     });
   }
@@ -168,6 +180,7 @@ class SQLHelper {
       'created_at': DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
       'user_id': user_id,
       'album_title': album_text,
+      "diary_id": null,
     };
 
     final id = await db.insert('album', data,
@@ -177,7 +190,6 @@ class SQLHelper {
   }
 
   static Future<List<Album>> getAlbumsUser(int user_id) async {
-    /// change this to list ,a[ string dynamic]
     final db = await SQLHelper.db();
     final res = await db.query(
       'album',
@@ -197,5 +209,35 @@ class SQLHelper {
     final db = await SQLHelper.db();
     final test = db.query('album', orderBy: "id");
     return test; // query for fetching, updating, deleting
+  }
+
+  static Future<int> storeDiaryInAlbum(
+      int user_id, int diary_id, int album_id) async {
+    final db = await SQLHelper
+        .db(); //create db if db not exist and create table if not exist also.
+    final data = {
+      'id': album_id,
+      'user_id': user_id,
+      'diary_id': diary_id,
+    };
+
+    final id = await db.insert('album', data,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace); //obvious shit
+    print("CREATED: $id");
+    return id;
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchDiariesInAlbum(
+      int album_id) async {
+    final db = await SQLHelper.db();
+
+    final result = await db.rawQuery('''
+    SELECT picture_diary.* 
+    FROM picture_diary 
+    INNER JOIN album_diaries ON picture_diary.id = album_diaries.diary_id 
+    WHERE album_diaries.album_id = ?
+  ''', [album_id]);
+
+    return result;
   }
 }

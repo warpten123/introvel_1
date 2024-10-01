@@ -8,7 +8,7 @@ import 'create_album/show_modal.dart';
 
 class HomeBottomBar extends StatelessWidget {
   HomeBottomBar(this.path, {super.key});
-  String? path;
+  final String? path;
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(

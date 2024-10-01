@@ -19,6 +19,7 @@ class AlbumsList extends StatelessWidget {
             return Text('Error: ${snapshot.error}');
           } else {
             final albums = snapshot.data!;
+            print("albums ${albums}");
             return ListView.builder(
               itemCount: albums.length,
               itemBuilder: (context, index) {
@@ -26,6 +27,7 @@ class AlbumsList extends StatelessWidget {
                 return Card(
                   child: ListTile(
                     title: Text(album.album_title),
+                    trailing: Text(album.diary_id.toString()),
                     subtitle: Text(album.created_at),
                     // Add more widgets to display album details
                   ),
