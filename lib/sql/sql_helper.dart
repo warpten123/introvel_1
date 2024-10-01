@@ -45,7 +45,8 @@ class SQLHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         album_title TEXT,
         user_id INTEGER,
-        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        diary_id INTEGER
       )
 """);
   }
@@ -179,6 +180,7 @@ class SQLHelper {
       'created_at': DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
       'user_id': user_id,
       'album_title': album_text,
+      "diary_id": null,
     };
 
     final id = await db.insert('album', data,
@@ -214,12 +216,12 @@ class SQLHelper {
     final db = await SQLHelper
         .db(); //create db if db not exist and create table if not exist also.
     final data = {
-      'album_id': album_id,
+      'id': album_id,
       'user_id': user_id,
       'diary_id': diary_id,
     };
 
-    final id = await db.insert('album_diaries', data,
+    final id = await db.insert('album', data,
         conflictAlgorithm: sql.ConflictAlgorithm.replace); //obvious shit
     print("CREATED: $id");
     return id;

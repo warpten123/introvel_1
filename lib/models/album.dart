@@ -7,11 +7,13 @@ class Album {
   String album_title;
   String created_at;
   String? path;
+  int? diary_id;
   Album({
     this.id,
     required this.user_id,
     required this.album_title,
     required this.created_at,
+    this.diary_id,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class Album {
       'id': id,
       'album_title': album_title,
       'created_at': created_at,
+      'diary_id': diary_id,
     };
   }
 
@@ -29,6 +32,7 @@ class Album {
       id: map['id'] != null ? map['id'] as int : null,
       album_title: map['album_title'] as String,
       created_at: map['created_at'] as String,
+      diary_id: map['diary_id'] != null ? map['diary_id'] as int : null,
     );
   }
 
